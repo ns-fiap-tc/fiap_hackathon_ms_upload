@@ -1,22 +1,25 @@
-# resource "kubernetes_secret" "secrets-ms-upload" {
-#   metadata {
-#     name = "secrets-ms-upload"
-#   }
+resource "kubernetes_secret" "secrets-ms-upload" {
+  metadata {
+    name = "secrets-ms-upload"
+  }
 
-#   type = "Opaque"
+  type = "Opaque"
 
-#   data = {
-#     DB_HOST             = element(split(":",data.aws_db_instance.hacka_db.endpoint),0)
-#     DB_PORT             = var.db_hacka_port
-#     DB_NAME             = var.db_hacka_name
-#     DB_USER             = var.db_hacka_username
-#     DB_PASSWORD         = var.db_hacka_password
-#   }
+  data = {
+    DB_HOST             = data.kubernetes_service.mongodb-service.metadata[0].name
+    DB_PORT             = var.db_hacka_port
+    DB_NAME             = var.db_hacka_name
+    DB_USER             = var.db_hacka_username
+    DB_PASSWORD         = var.db_hacka_password
 
-#   lifecycle {
-#     prevent_destroy = false
-#   }
-# }
+    MESSAGE_QUEUE_HOST   = kubernetes_service.messagequeue_service.metadata[0].name
+    //NOTIFICACAO_SERVICE_HOST = data.kubernetes_service.service-ms-produto.metadata[0].name
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+}
 
 # MS UPLOAD 
 resource "kubernetes_deployment" "deployment-ms-upload" {
@@ -26,7 +29,7 @@ resource "kubernetes_deployment" "deployment-ms-upload" {
   }
 
   spec {
-    replicas = 2
+    replicas = 1
 
     selector {
       match_labels = {
@@ -64,11 +67,11 @@ resource "kubernetes_deployment" "deployment-ms-upload" {
             }
           }
 
-          # env_from {
-          #   secret_ref {
-          #     name = kubernetes_secret.secrets-ms-upload.metadata[0].name
-          #   }
-          # }
+          env_from {
+            secret_ref {
+              name = kubernetes_secret.secrets-ms-upload.metadata[0].name
+            }
+          }
 
           port {
             container_port = "8080"
