@@ -27,7 +27,7 @@ variable "db_hacka_name" {
 variable "db_hacka_port" {
   description = "Database hacka port"
   type        = string
-  default     = "5432"
+  default     = "27017"
 }
 
 variable "db_hacka_identifier" {
