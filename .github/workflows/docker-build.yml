@@ -24,7 +24,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_GUILHERME_USERNAME }}
           password: ${{ secrets.DOCKERHUB_GUILHERME_ACCESS_TOKEN }}
 
-      - name: 🛠️ Build da imagem do ms-categoria do App Lanchonete
+      - name: 🛠️ Build da imagem do ms-upload do App Fiap Hacka 
         run: |
           docker build \
           --build-arg MODE=prod \
