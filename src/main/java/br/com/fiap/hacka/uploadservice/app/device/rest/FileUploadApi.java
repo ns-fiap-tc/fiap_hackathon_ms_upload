@@ -7,5 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface FileUploadApi {
 
-    ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String authHeader);
+    ResponseEntity<?> uploadFile(
+            @RequestParam("file") MultipartFile file,
+            @RequestHeader("Authorization") String authHeader,
+            @RequestParam("webhook") String webhook);
 }
