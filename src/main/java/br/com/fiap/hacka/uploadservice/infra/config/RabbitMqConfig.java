@@ -29,9 +29,7 @@ import org.springframework.messaging.handler.annotation.support.DefaultMessageHa
 @CommonsLog
 @EnableRabbit
 @Configuration
-public class RabbitMqConfig {//implements RabbitListenerConfigurer {
-
-    public static final String QUEUE_NAME = "uploadS3";
+public class RabbitMqConfig {
 
     private final ConnectionFactory connectionFactory;
 
@@ -51,15 +49,6 @@ public class RabbitMqConfig {//implements RabbitListenerConfigurer {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
         template.setMessageConverter(jackson2MessageConverter());
         return template;
-    }
-
-    // RabbitAdmin for auto-declaring queues/exchanges
-    @Bean
-    public RabbitAdmin rabbitAdmin() {
-        RabbitAdmin admin = new RabbitAdmin(connectionFactory);
-        // Declare queue automatically at startup
-        admin.declareQueue(new Queue(QUEUE_NAME, true));
-        return admin;
     }
 
     // Listener container factory

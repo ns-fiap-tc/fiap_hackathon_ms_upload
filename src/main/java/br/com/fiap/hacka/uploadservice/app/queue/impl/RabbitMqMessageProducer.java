@@ -1,7 +1,7 @@
-package br.com.fiap.hacka.uploadservice.device.queue.impl;
+package br.com.fiap.hacka.uploadservice.app.queue.impl;
 
-import br.com.fiap.hacka.uploadservice.core.commons.FilePart;
-import br.com.fiap.hacka.uploadservice.device.queue.MessageProducer;
+import br.com.fiap.hacka.core.commons.dto.FilePartDto;
+import br.com.fiap.hacka.uploadservice.app.queue.MessageProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ public class RabbitMqMessageProducer implements MessageProducer {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public void send(String queueName, FilePart filePart) {
-        rabbitTemplate.convertAndSend(queueName, filePart);
+    public void send(String queueName, FilePartDto filePartDto) {
+        rabbitTemplate.convertAndSend(queueName, filePartDto);
     }
 }

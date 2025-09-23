@@ -1,15 +1,19 @@
-package br.com.fiap.hacka.uploadservice.app.device.rest.impl;
+package br.com.fiap.hacka.uploadservice.app.rest.impl;
 
-import br.com.fiap.hacka.uploadservice.app.device.facade.UploadFacade;
-import br.com.fiap.hacka.uploadservice.app.device.rest.FileUploadApi;
+import br.com.fiap.hacka.uploadservice.app.rest.FileUploadApi;
+import br.com.fiap.hacka.uploadservice.app.service.UploadService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Base64;
 import java.util.Map;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -22,19 +26,28 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class FileUploadApiImpl implements FileUploadApi {
 
-    private final UploadFacade uploadFacade;
-    private String userId;
-    private String username;
+    private final UploadService uploadService;
 
-    @PostMapping(value = "/upload")
-    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String authHeader) {
+    @Operation(summary = "Recebe os arquivos que terao os frames extraidos. O request deve ser do tipo MultipartFile.", method = "POST")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Recebimento realizado com sucesso."),
+            @ApiResponse(responseCode = "400", description = "Objeto invalido.")
+    })
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadFile(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "objeto a ser criado.")
+            @RequestParam("file") MultipartFile file,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Objeto de autorizacao do usuario.")
+            @RequestHeader("Authorization") String authHeader,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "web hook para onde sera enviada a notificacao sobre a conclusao do upload do arquivo (sucesso ou facasso)")
+            @RequestParam("webhook") String webhook)
+    {
         InputStream stream = null;
         boolean success = false;
         String fileName = file.getOriginalFilename();
         try {
-            obterDadosUsuarioJwt(authHeader);
             stream = file.getInputStream();
-            success = uploadFacade.uploadFile(fileName, stream);
+            success = uploadService.uploadFile(fileName, stream, obterDadosUsuarioJwt(authHeader), webhook);
         } catch (Exception e) {
             log.error("Ocorreu um erro durante o armazenamento do arquivo: " + fileName, e);
             throw new RuntimeException(e);
@@ -51,14 +64,11 @@ public class FileUploadApiImpl implements FileUploadApi {
         return success ? ResponseEntity.ok().build() : ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
     }
 
-    private void obterDadosUsuarioJwt(String authHeader) throws Exception {
+    private String obterDadosUsuarioJwt(String authHeader) throws Exception {
         String token = authHeader.replace("Bearer ", "");
         Map<String, Object> claims = decodeJwtPayload(token);
 
-        this.username = (String) claims.get("cognito:username");
-        this.userId = (String) claims.get("sub");
-
-        log.info("Dados do usuário cognito recebidos: ID: " + userId + " Username: " + username);
+        return (String) claims.get("cognito:username");
     }
 
     private Map<String, Object> decodeJwtPayload(String token) throws Exception {
