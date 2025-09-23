@@ -1,0 +1,60 @@
+{
+  "rabbit_version": "3.13.7",
+  "vhosts":[
+        {"name": "/"}
+  ],
+  "users": [
+        { "name": "guest", "password": "guest", "tags": "administrator" }
+  ],
+  "permissions":[
+        { "user": "guest", "vhost": "/", "configure": ".*", "write": ".*", "read": ".*" }
+  ],
+  "queues": [
+    {
+      "name": "uploadS3",
+      "vhost": "/",
+      "durable": true
+    },
+    {
+      "name": "frame-extractor",
+      "vhost": "/",
+      "durable": true
+    },
+    {
+      "name": "notification",
+      "vhost": "/",
+      "durable": true
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "app",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true
+    }
+  ],
+  "bindings": [
+    {
+      "source": "app",
+      "vhost": "/",
+      "destination": "uploadS3",
+      "destination_type": "queue",
+      "routing_key": "file.upload.s3"
+    },
+    {
+      "source": "app",
+      "vhost": "/",
+      "destination": "frame-extractor",
+      "destination_type": "queue",
+      "routing_key": "file.frame.extractor"
+    },
+    {
+      "source": "app",
+      "vhost": "/",
+      "destination": "notification",
+      "destination_type": "queue",
+      "routing_key": "file.notification"
+    }
+  ]
+}

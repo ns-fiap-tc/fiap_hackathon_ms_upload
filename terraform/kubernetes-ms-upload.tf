@@ -6,11 +6,11 @@ resource "kubernetes_secret" "secrets-ms-upload" {
   type = "Opaque"
 
   data = {
-    DB_HOST             = data.kubernetes_service.mongodb-service.metadata[0].name
+    /*DB_HOST             = data.kubernetes_service.mongodb-service.metadata[0].name
     DB_PORT             = var.db_hacka_port
     DB_NAME             = var.db_hacka_name
     DB_USER             = var.db_hacka_username
-    DB_PASS             = var.db_hacka_password
+    DB_PASS             = var.db_hacka_password*/
 
     MESSAGE_QUEUE_HOST   = kubernetes_service.messagequeue_service.metadata[0].name
     //NOTIFICACAO_SERVICE_HOST = data.kubernetes_service.service-ms-produto.metadata[0].name
