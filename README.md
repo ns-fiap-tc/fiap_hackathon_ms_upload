@@ -10,9 +10,9 @@ Este é o repositório que contém o código fonte do serviço de upload da apli
 Este projeto possui um ecossistema composto por múltiplos repositórios que se comunicam entre si e também utilizam GitHub Actions para provisionamento ou deploy automatizado.
 
 > Para completo funcionamento da plataforma, é necessário seguir o seguinte fluxo de provisionamento:
-> 1. A provisão deste repositório; [infra-base](https://github.com/ns-fiap-tc/fiap_hackathon_infra_base)
+> 1. A provisão do repositório da infra-base: [infra-base](https://github.com/ns-fiap-tc/fiap_hackathon_infra_base)
 > 2. A provisão do repositório do banco de dados: [infra-bd](https://github.com/ns-fiap-tc/fiap_hackathon_infra_bd);
-> 3. A provisão do repositório do microsserviço de upload: [fiap_hackathon_ms_upload](https://github.com/ns-fiap-tc/fiap_hackathon_ms_upload);
+> 3. A provisão deste repositório: [fiap_hackathon_ms_upload](#como-rodar-o-projeto);
 > 4. A provisão do repositório do microsserviço de notificação: [fiap_hackathon_ms_notificacao](https://github.com/ns-fiap-tc/fiap_hackathon_ms_notificacao);
 > 5. A provisão do repositório do microsserviço de processamento: [fiap_hackathon_ms_processamento](https://github.com/ns-fiap-tc/fiap_hackathon_ms_processamento);
 > 6. A provisão do repositório do microsserviço de extração de frames: [fiap_hackathon_ms_frameextractor](https://github.com/ns-fiap-tc/fiap_hackathon_ms_frameextractor);
