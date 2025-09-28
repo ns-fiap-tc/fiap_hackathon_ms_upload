@@ -1,4 +1,4 @@
-# FIAP Tech Challenge - Microsserviço de categoria
+# FIAP Tech Challenge - Microsserviço de upload
 Repositório com o microsserviço de upload para o hackathon
 
 Este é o repositório que contém o código fonte do serviço de upload da aplicação [FIAP Hackathon](https://github.com/ns-fiap-tc/fiap_hackathon_doc). Nele você também encontrará arquivos de configuração do Terraform que fazem o deploy da aplicação na AWS.
