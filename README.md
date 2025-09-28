@@ -36,7 +36,7 @@ Antes de começar, certifique-se de ter os seguintes itens instalados e configur
 
 ## Como usar
 
-1. **Clonar cada repositório mencionado acima, por exemplo**:
+1. **Clonar o repositório**:
 
 ```bash
 git clone https://github.com/ns-fiap-tc/fiap_hackathon_ms_upload
@@ -86,4 +86,6 @@ terraform init
 
 ## Cobertura de Testes
 O projeto contém testes automatizados, abaixo evidência de cobertura dos testes.
+<img width="1852" height="537" alt="Captura de tela de 2025-09-28 18-52-16" src="https://github.com/user-attachments/assets/c1ace31a-3852-4ce3-8624-febd684e6c42" />
+
 </details>
