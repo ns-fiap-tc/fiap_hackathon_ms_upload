@@ -75,7 +75,7 @@ resource "kubernetes_deployment" "deployment-ms-upload" {
 
           env {
             name  = "MESSAGE_QUEUE_HOST"
-            value = kubernetes_service.messagequeue_service.metadata[0].name
+            value = data.kubernetes_service.messagequeue_service.metadata[0].name
           }
           env {
             name  = "MANAGEMENT_METRICS_EXPORT_OTLP_ENDPOINT"
