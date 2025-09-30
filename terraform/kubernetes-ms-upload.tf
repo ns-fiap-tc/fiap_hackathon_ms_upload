@@ -74,6 +74,18 @@ resource "kubernetes_deployment" "deployment-ms-upload" {
           }
 
           env {
+            name  = "MANAGEMENT_METRICS_EXPORT_OTLP_ENDPOINT"
+            value = "http://otel-collector.observability.svc.cluster.local:4318/v1/metrics"
+          }
+          env {
+            name  = "MANAGEMENT_METRICS_EXPORT_OTLP_PROTOCOL"
+            value = "http/protobuf"
+          }
+          env {
+            name  = "MANAGEMENT_METRICS_EXPORT_OTLP_ENABLED"
+            value = "true"
+          }
+          env {
             name  = "MANAGEMENT_METRICS_TAGS_APPLICATION"
             value = "upload-service"
           }
