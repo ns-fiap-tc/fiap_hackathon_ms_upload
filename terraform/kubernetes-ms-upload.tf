@@ -75,7 +75,7 @@ resource "kubernetes_deployment" "deployment-ms-upload" {
 
           env {
             name  = "MANAGEMENT_METRICS_EXPORT_OTLP_ENDPOINT"
-            value = "http://otel-collector.observability.svc.cluster.local:4318/v1/metrics"
+            value = "http://otel-collector.observability.svc.cluster.local:4320/v1/metrics"
           }
 
           env {
